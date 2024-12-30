@@ -2,7 +2,8 @@ import { Component, signal, ViewChild, ElementRef } from '@angular/core';
 import { IonHeader, IonToolbar, IonTitle, IonContent, IonFab, IonFabButton, IonIcon, IonCard, IonCardContent, IonButton, IonList, IonItem, IonLabel } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { addIcons } from 'ionicons';
-import { cloudUploadOutline } from 'ionicons/icons';
+import { cameraOutline } from 'ionicons/icons';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { TeachablemachineService } from '../services/teachablemachine.service';
 import { PercentPipe } from '@angular/common';
 
@@ -17,14 +18,14 @@ import { PercentPipe } from '@angular/common';
 export class Tab1Page {
   @ViewChild('image', { static: false }) imageElement!: ElementRef<HTMLImageElement>;
 
-  imageReady = signal(false)
-  imageUrl = signal("")
+  imageReady = signal(false);
+  imageUrl = signal("");
   modelLoaded = signal(false);
   classLabels: string[] = [];
   predictions: any[] = [];
 
   constructor(private teachablemachine: TeachablemachineService) {
-    addIcons({ cloudUploadOutline });
+    addIcons({ cameraOutline });
   }
 
   async ngOnInit() {
@@ -43,20 +44,20 @@ export class Tab1Page {
     }
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-
-      const reader = new FileReader();
-
-      reader.onload = () => {
-        this.imageUrl.set(reader.result as string)
-        this.imageReady.set(true)
-      };
-
-      reader.readAsDataURL(file);
+  async openCamera(): Promise<void> {
+    try {
+      const image = await Camera.getPhoto({
+        quality: 90,
+        resultType: CameraResultType.DataUrl, // Get the image as a base64-encoded string
+        source: CameraSource.Camera, // Use the camera
+        saveToGallery: false, // Optional: Save to gallery or not
+      });
+      if (image) {
+        this.imageUrl.set(image.dataUrl ? image.dataUrl : "");
+        this.imageReady.set(true);
+      }
+    } catch (error) {
+      console.error('Camera error:', error);
     }
   }
 }
