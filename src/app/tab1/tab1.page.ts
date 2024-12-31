@@ -6,6 +6,9 @@ import { cameraOutline } from 'ionicons/icons';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { TeachablemachineService } from '../services/teachablemachine.service';
 import { PercentPipe } from '@angular/common';
+import { LoadingService } from '../services/loading.service';
+import { LoadingComponent } from '../loading/loading.component';
+import { RouterOutlet } from '@angular/router';
 
 
 @Component({
@@ -13,7 +16,7 @@ import { PercentPipe } from '@angular/common';
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [PercentPipe, IonCardContent, IonButton, IonList, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonFab, IonFabButton, IonIcon, IonCard],
+  imports: [PercentPipe, IonCardContent, IonButton, IonList, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonFab, IonFabButton, IonIcon, IonCard, LoadingComponent, RouterOutlet],
 })
 export class Tab1Page {
   @ViewChild('image', { static: false }) imageElement!: ElementRef<HTMLImageElement>;
@@ -24,7 +27,7 @@ export class Tab1Page {
   classLabels: string[] = [];
   predictions: any[] = [];
 
-  constructor(private teachablemachine: TeachablemachineService) {
+  constructor(private teachablemachine: TeachablemachineService, private loadingService: LoadingService) {
     addIcons({ cameraOutline });
   }
 
@@ -34,6 +37,13 @@ export class Tab1Page {
     this.modelLoaded.set(true)
   }
 
+  requestPrediction() {
+    this.loadingService.show();
+    setTimeout(() => {
+      this.predict();            // Perform the prediction after the UI update
+    }, 0);   
+  }
+
   async predict() {
     try {
       const image = this.imageElement.nativeElement;
@@ -41,6 +51,9 @@ export class Tab1Page {
     } catch (error) {
       console.error(error);
       alert('Error al realizar la predicción.');
+    }
+    finally {
+      this.loadingService.hide();
     }
   }
 
