@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Teachable Machine
+      Identificar planta
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Teachable Machine</ion-title>
+      <ion-title size="large">Identificar planta</ion-title>
     </ion-toolbar>
   </ion-header>
 
@@ -18,7 +18,7 @@
     <img #image [src]="imageUrl()" alt="Imagen seleccionada" />
     @if(modelLoaded()) {
     <div class="ion-text-center ion-padding-top ion-padding-bottom">
-      <ion-button fill="outline" color="success" (click)="predict()">Predecir</ion-button>
+      <ion-button fill="outline" color="success" (click)="predict()">Identificar</ion-button>
     </div>
     <ion-list>
       <ion-item>
