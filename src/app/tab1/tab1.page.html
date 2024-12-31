@@ -1,3 +1,6 @@
+<app-loading></app-loading>
+<router-outlet></router-outlet>
+
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
@@ -18,12 +21,9 @@
     <img #image [src]="imageUrl()" alt="Imagen seleccionada" />
     @if(modelLoaded()) {
     <div class="ion-text-center ion-padding-top ion-padding-bottom">
-      <ion-button fill="outline" color="success" (click)="predict()">Identificar</ion-button>
+      <ion-button fill="outline" color="success" (click)="requestPrediction()">Identificar</ion-button>
     </div>
     <ion-list>
-      <ion-item>
-        <ion-label>Clases: {{ classLabels }} </ion-label>
-      </ion-item>
       @for (item of predictions; track $index) {
       <ion-item>
         <ion-label> {{ item?.className }} : {{ item?.probability | percent }} </ion-label>

@@ -7,6 +7,7 @@ import { AppComponent } from './app/app.component';
 import { firebaseConfig } from './credentials';
 import { provideFirebaseApp, initializeApp } from '@angular/fire/app';
 import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -14,6 +15,6 @@ bootstrapApplication(AppComponent, {
     provideFirestore(() => getFirestore()),
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     provideIonicAngular(),
-    provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideRouter(routes, withPreloading(PreloadAllModules)), provideAnimationsAsync(),
   ],
 });
