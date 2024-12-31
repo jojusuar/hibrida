@@ -48,9 +48,9 @@ export class Tab1Page {
     try {
       const image = await Camera.getPhoto({
         quality: 90,
-        resultType: CameraResultType.DataUrl, // Get the image as a base64-encoded string
-        source: CameraSource.Camera, // Use the camera
-        saveToGallery: false, // Optional: Save to gallery or not
+        resultType: CameraResultType.DataUrl,
+        source: CameraSource.Camera,
+        saveToGallery: false,
       });
       if (image) {
         this.imageUrl.set(image.dataUrl ? image.dataUrl : "");
