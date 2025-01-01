@@ -19,24 +19,12 @@ import { ProviderService } from '../services/provider.service';
 })
 export class Tab2Page {
 
-  myForm: FormGroup = new FormGroup({
-    score: new FormControl("", Validators.required),
-    opinion: new FormControl("", Validators.required)
-  });
-
-  collectionName = 'reviews';
+  collectionName = 'feed';
 
   /* Inyecte la dependencia a Firestore */
   constructor(private providerService: ProviderService) { }
 
   dataList: any[] = [];
-
-  /* El método onSubmit para enviar los datos del formulario mediante el servicio */
-  onSubmit() {
-    this.providerService.createDocument(this.collectionName, this.myForm.value).then(() => {
-      this.myForm.reset()
-    });
-  }
 
   ngOnInit() {
     this.loadData();
