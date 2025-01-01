@@ -11,9 +11,4 @@ export const routes: Routes = [
     path: 'comments',
     component: CommentsComponent
   }
-  ,
-  {
-    path: 'tabs/tab1',
-    component: Tab1Page
-  }
 ];
