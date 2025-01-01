@@ -1,5 +1,5 @@
 import { Component, signal, ViewChild, ElementRef } from '@angular/core';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonFab, IonFabButton, IonIcon, IonCard, IonCardContent, IonButton, IonList, IonItem, IonLabel } from '@ionic/angular/standalone';
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonFab, IonFabButton, IonIcon, IonCard, IonCardContent, IonButton, IonList, IonItem, IonLabel, IonText } from '@ionic/angular/standalone';
 import { ExploreContainerComponent } from '../explore-container/explore-container.component';
 import { addIcons } from 'ionicons';
 import { cameraOutline } from 'ionicons/icons';
@@ -8,24 +8,27 @@ import { TeachablemachineService } from '../services/teachablemachine.service';
 import { PercentPipe } from '@angular/common';
 import { LoadingService } from '../services/loading.service';
 import { LoadingComponent } from '../loading/loading.component';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterModule} from '@angular/router';
 
+interface Prediction {
+  className: string;
+  probability: number;
+}
 
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
   styleUrls: ['tab1.page.scss'],
   standalone: true,
-  imports: [PercentPipe, IonCardContent, IonButton, IonList, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonFab, IonFabButton, IonIcon, IonCard, LoadingComponent, RouterOutlet],
+  imports: [PercentPipe, IonCardContent, IonButton, IonList, IonItem, IonLabel, IonHeader, IonToolbar, IonTitle, IonContent, ExploreContainerComponent, IonFab, IonText, IonFabButton, IonIcon, IonCard, LoadingComponent, RouterOutlet, RouterModule],
 })
 export class Tab1Page {
   @ViewChild('image', { static: false }) imageElement!: ElementRef<HTMLImageElement>;
-
   imageReady = signal(false);
   imageUrl = signal("");
   modelLoaded = signal(false);
   classLabels: string[] = [];
-  predictions: any[] = [];
+  predictions: Prediction[] = [];
 
   constructor(private teachablemachine: TeachablemachineService, private loadingService: LoadingService) {
     addIcons({ cameraOutline });
@@ -40,14 +43,15 @@ export class Tab1Page {
   requestPrediction() {
     this.loadingService.show();
     setTimeout(() => {
-      this.predict();            // Perform the prediction after the UI update
-    }, 0);   
+      this.predict();
+    }, 0);
   }
 
   async predict() {
     try {
       const image = this.imageElement.nativeElement;
       this.predictions = await this.teachablemachine.predict(image);
+      this.predictions.sort((a, b): number => b.probability - a.probability);
     } catch (error) {
       console.error(error);
       alert('Error al realizar la predicción.');

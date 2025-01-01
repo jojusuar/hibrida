@@ -1,0 +1,70 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" color="transparent">
+        <ion-icon name="arrow-back-outline" color="white"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{this.flower}}: comentarios</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-card class="ion-padding-bottom ion-margin-bottom">
+
+    <ion-card-header>
+      <ion-card-title>¡Comparte consejos sobre esta flor!</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content class="ion-text-center">
+
+      <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+
+        <ion-select formControlName="difficulty" label="Dificultad"
+          placeholder="Seleccione la dificultad para cuidar la flor">
+          <ion-select-option value="experto">Experto</ion-select-option>
+          <ion-select-option value="dificil">Difícil</ion-select-option>
+          <ion-select-option value="regular">Regular</ion-select-option>
+          <ion-select-option value="facil">Fácil</ion-select-option>
+        </ion-select>
+
+        <ion-textarea formControlName="consejo" label="Consejo"
+          placeholder="Agregue aquí un consejo o su experiencia con la flor..."></ion-textarea>
+
+        <ion-button type="submit" [disabled]="!myForm.valid">Enviar</ion-button>
+
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card class="ion-padding-bottom ion-margin-bottom">
+
+    <ion-card-header>
+      <ion-card-title>Los usuarios dicen...</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      @if(dataList.length == 0){
+        <p>
+          ¡Sé el primero en comentar sobre esta flor!
+        </p>
+      }
+      <ion-list>
+
+        <!-- CARGA DE DATOS - INICIO -->
+        @for (datum of dataList; track $index) {
+        <ion-item>
+          <ion-label> {{ datum?.difficulty }} </ion-label>
+          <ion-label> {{ datum?.consejo }} </ion-label>
+        </ion-item>
+        }
+        <!-- CARGA DE DATOS - FIN -->
+
+      </ion-list>
+
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>
