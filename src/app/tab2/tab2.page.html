@@ -1,36 +1,39 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Feed principal
+      FloraScan
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <p>Estas noticias o lo que sea deben ser requeridas del firebase,
-    crear una colección en la DB llamada feed y agregarle items con titulo, contenido
-    y si pueden una imagen.
-
-    iterar sobre el arreglo loadData para crear una tarjeta para cada item de la coleccion feed.
-  </p>
-
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">FloraScan</ion-title>
+    </ion-toolbar>
+  </ion-header>
   
-  <ion-card class="ion-padding-bottom ion-margin-bottom">
+  @if(dataList.length == 0){
+  <div>
+    <p>
+      ¡Fun facts sobre las plantas!
+    </p>
+  </div>
+  }
+  @for (datum of dataList; track $index) {
+  <ion-card class="plant-card">
     <ion-card-header>
-      Tarjeta 1
+      <ion-card-title>{{ datum?.title }}</ion-card-title>
     </ion-card-header>
-    <ion-card-content>
-      <p> contenido 1</p>
+    <ion-card-content class="card-content">
+      <img [src]="datum?.imageURL" alt="Image for {{ datum?.title }}" class="plant-image" />
+      <ion-text>
+        <p>{{ datum?.content }}</p>
+      </ion-text>
     </ion-card-content>
   </ion-card>
 
-  <ion-card class="ion-padding-bottom ion-margin-bottom">
-    <ion-card-header>
-      Tarjeta 2
-    </ion-card-header>
-    <ion-card-content>
-      <p> contenido 2</p>
-    </ion-card-content>
-  </ion-card>
+
+  }
 
 </ion-content>

@@ -4,7 +4,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Identificar flor
+      FloraScan
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -12,12 +12,16 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Identificar flor</ion-title>
+      <ion-title size="large">FloraScan</ion-title>
     </ion-toolbar>
   </ion-header>
 
+  
   @if(imageReady()) {
-  <ion-card>
+  <ion-card class="card-center">
+    <ion-text class="ion-text-left">
+      <h2>Selected image</h2>
+    </ion-text>
     <img #image [src]="imageUrl()" alt="Imagen seleccionada" />
     @if(modelLoaded()) {
     <div class="ion-text-center ion-padding-top ion-padding-bottom">
@@ -31,7 +35,7 @@
       <h4>{{ predictions[0].probability | percent }} de encaje</h4>
     </ion-text>
     <div class="ion-text-center ion-padding-top ion-padding-bottom">
-      <ion-button routerLink="/comments" [state]="{ flower: predictions[0].className}">
+      <ion-button routerLink="/comments" [state]="{ flower: predictions[0].className} ">
         VER COMENTARIOS
       </ion-button>
     </div>
@@ -39,9 +43,36 @@
     }
   </ion-card>
   }
-
-  <p>poner alguna bienvenida, instrucciones o algo</p>
-
+  <div class="card-container">
+    <ion-card>
+      <ion-card-content>
+        <ion-text>
+          <h2>Datos Divertidos Sobre las Plantas</h2>
+        </ion-text>
+        <ul>
+          <li><b>Las Plantas Pueden "Hablar":</b> Algunas plantas pueden comunicarse a través de la liberación de químicos.</li>
+          <li><b>El Organismo Vivo Más Antiguo:</b> La planta conocida más antigua tiene más de 9,500 años.</li>
+          <li><b>Las Plantas Pueden Pensar:</b> Se ha demostrado que las plantas reaccionan a estímulos en su entorno.</li>
+          <li><b>Comida para el Aire:</b> Las plantas son cruciales para producir oxígeno y absorber dióxido de carbono.</li>
+        </ul>
+      </ion-card-content>
+    </ion-card>
+  
+    <ion-card>
+      <ion-card-content>
+        <ion-text>
+          <h2>Cómo Usar FloraScan</h2>
+        </ion-text>
+        <ol>
+          <li><b>Captura o Sube:</b> Usa la cámara para capturar una foto de la planta o sube una imagen.</li>
+          <li><b>Analiza:</b> Presiona <b>Identificar</b> para analizar la planta.</li>
+          <li><b>Revisa los Resultados:</b> Revisa el nombre de la planta y la puntuación de coincidencia.</li>
+          <li><b>Explora Más:</b> Ver información detallada de la planta y comentarios.</li>
+        </ol>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  
   <ion-fab slot="fixed" vertical="bottom" horizontal="center">
     <ion-fab-button (click)="openCamera()">
       <ion-icon name="camera-outline"></ion-icon>
