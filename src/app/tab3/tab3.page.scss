@@ -7,3 +7,20 @@
   p#descripcion {
     text-align: justify;
   }
+
+ion-toolbar {
+    --background: #4caf50;
+}
+ion-title {
+    font-size: 2rem;
+    color: #ffffff;
+    font-weight: bold;
+}
+ion-card-title {
+  color: #388e3c;
+  font-weight: bold;
+}
+
+p {
+  font-size: 1rem; 
+}
